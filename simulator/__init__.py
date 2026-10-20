@@ -1,4 +1,4 @@
-"""SecondSight synthetic match simulator package."""
+"""Touchline synthetic match simulator package."""
 
 from .simulator import (
     EVENT_TYPES,

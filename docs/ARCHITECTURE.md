@@ -1,8 +1,8 @@
-# SecondSight — Architecture
+# Touchline — Architecture
 
 ## Overview
 
-SecondSight is a real-time, explainable match-intelligence system built around a
+Touchline is a real-time, explainable match-intelligence system built around a
 multi-agent pipeline. It is designed to run in two modes:
 
 1. **Local demo mode** (default for judging) — simulator → local agent loop → local API → web UI.

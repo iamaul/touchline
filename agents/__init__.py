@@ -1,4 +1,4 @@
-"""SecondSight agents package."""
+"""Touchline agents package."""
 
 from agents.engine import StatsEngine
 from agents.state import MatchState

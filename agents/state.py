@@ -1,4 +1,4 @@
-"""MatchState — the shared match state consumed by every SecondSight agent.
+"""MatchState — the shared match state consumed by every Touchline agent.
 
 Holds rolling and cumulative statistics derived from the synthetic event
 stream. Downstream agents (Interpreter, Explainer, Narrator, Personalizer)

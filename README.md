@@ -1,8 +1,8 @@
-# SecondSight
+# Touchline
 
 **Explainable match intelligence, narrated live by a team of AI agents.**
 
-SecondSight ingests synthetic football match events in real time and runs a multi-agent
+Touchline ingests synthetic football match events in real time and runs a multi-agent
 pipeline that turns raw events into meaningful statistics, explains *why* key moments
 matter, renders them as overlay-ready broadcast narratives, and personalizes them
 for analysts and fans alike.

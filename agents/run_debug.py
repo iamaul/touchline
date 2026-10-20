@@ -1,4 +1,4 @@
-"""Live console debug view of SecondSight stats — end-to-end Day 2 check.
+"""Live console debug view of Touchline stats — end-to-end Day 2 check.
 
 Streams a synthetic match through the stats engine and renders rolling
 possession, momentum, pressure, pass quality and xG, updating on a cadence:
@@ -58,7 +58,7 @@ def render(s) -> str:
     lines = []
     lines.append("─" * 62)
     lines.append(
-        f"  SecondSight  |  {home} {score['HOME']} - {score['AWAY']} {away}"
+        f"  Touchline  |  {home} {score['HOME']} - {score['AWAY']} {away}"
         f"  |  {snap['clock']}  ({'1st' if snap['half'] == 1 else '2nd'} half)"
     )
     lines.append("─" * 62)
@@ -96,7 +96,7 @@ def render(s) -> str:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="SecondSight live debug console")
+    ap = argparse.ArgumentParser(description="Touchline live debug console")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--speed", type=float, default=60.0, help="sim seconds per wall second")
     ap.add_argument("--interval-sim", type=float, default=60.0, help="render cadence in sim seconds")

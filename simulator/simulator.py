@@ -1,4 +1,4 @@
-"""SecondSight synthetic match simulator.
+"""Touchline synthetic match simulator.
 
 Generates a seeded, football-realistic synthetic event stream:
 passes, shots, tackles, possession changes, pressure events, match metadata.

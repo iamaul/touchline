@@ -1,4 +1,4 @@
-# SecondSight — 7-Day Build Plan
+# Touchline — 7-Day Build Plan
 
 Solo entry · ~20h budget · Deadline: **Oct 27, 2026 11:59 PM PT** · Today: Oct 20
 
