@@ -53,6 +53,8 @@ class NarrativePacket:
     headline: str = ""
     story: str = ""
     stat_lines: list = field(default_factory=list)
+    team: Optional[str] = None
+    scoreline: str = ""
     overlay: dict = field(default_factory=dict)
     trace: dict = field(default_factory=dict)
 
@@ -61,6 +63,7 @@ class NarrativePacket:
             "moment_id": self.moment_id, "t": round(self.t, 1), "clock": self.clock,
             "kind": self.kind, "priority": self.priority, "lang": self.lang,
             "headline": self.headline, "story": self.story, "stat_lines": self.stat_lines,
+            "team": self.team, "scoreline": self.scoreline,
             "overlay": self.overlay, "trace": self.trace,
         }
 
@@ -127,6 +130,8 @@ class NarratorAgent:
             headline=expl["headline"],
             story=story,
             stat_lines=[s for s in (expl.get("stat_lines") or [])],
+            team=expl.get("team"),
+            scoreline=expl.get("scoreline", ""),
             overlay={
                 "duration_s": OVERLAY_DURATION.get(expl["priority"], 4.0),
                 "style": KIND_STYLE.get(expl["kind"], "neutral"),

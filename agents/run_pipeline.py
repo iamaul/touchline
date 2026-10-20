@@ -4,6 +4,7 @@
     python -m agents.run_pipeline --seed 7 --chaos 0.15        # failure recovery demo
     python -m agents.run_pipeline --fav-player "Pedro Mbeki" --fav-club "Northgate FC"
     python -m agents.run_pipeline --packets-out packets.jsonl --trace-out trace.jsonl
+    python -m agents.run_pipeline --web-out web/public          # dataset for the web UI
 
 Default audience set: analyst (English) + casual (English) + casual (Spanish
 translation via LLM when a provider is configured; template fallback otherwise).
@@ -51,6 +52,8 @@ def main() -> None:
                     help="second language for the casual profile ('' to disable)")
     ap.add_argument("--packets-out", default=None)
     ap.add_argument("--trace-out", default=None)
+    ap.add_argument("--web-out", default=None, metavar="DIR",
+                    help="write web/public/data.json (UI replay dataset)")
     args = ap.parse_args()
 
     chat_cfg = detect_config()
@@ -71,6 +74,8 @@ def main() -> None:
     mode = "LLM" if chat_cfg else "template (no LLM configured)"
     chaos = f" chaos={args.chaos}" if args.chaos else ""
 
+    by_moment: dict[str, dict] = {}   # moment_id -> {moment fields + variants}
+
     print(f"Touchline pipeline | seed {args.seed} | "
           f"{state.team_name('HOME')} vs {state.team_name('AWAY')} | narrator mode: {mode}{chaos}")
     print("─" * 70)
@@ -80,6 +85,15 @@ def main() -> None:
         if not packets:
             continue
         first = packets[0]
+        variants = {}
+        for p in packets:
+            aud = p["audience"]
+            variants[f"{aud['type']}|{aud['lang']}"] = p
+        by_moment[first["moment_id"]] = {
+            "id": first["moment_id"], "t": first["t"], "clock": first["clock"],
+            "kind": first["kind"], "priority": first["priority"],
+            "variants": variants,
+        }
         aud0 = first["audience"]
         print(f"  [{first['clock']}] {first['kind']} "
               f"({first['priority']}) — shown to {len(packets)} audiences:\n")
@@ -95,6 +109,31 @@ def main() -> None:
     if args.trace_out:
         with open(args.trace_out, "w") as f:
             f.write(orch.trace.to_jsonl() + "\n")
+    if args.web_out:
+        import os
+        os.makedirs(args.web_out, exist_ok=True)
+        dataset = {
+            "meta": {
+                "seed": args.seed,
+                "generated_by": "touchline-orchestrator",
+                "narrator_mode": "llm" if chat_cfg else "template",
+                "chaos": args.chaos,
+                "teams": {
+                    "HOME": {"name": state.teams["HOME"].name,
+                             "color": state.teams["HOME"].color},
+                    "AWAY": {"name": state.teams["AWAY"].name,
+                             "color": state.teams["AWAY"].color},
+                },
+            },
+            "match_end_t": 5400.0,
+            "moments": sorted(by_moment.values(), key=lambda m: m["t"]),
+            "trace": orch.trace.entries,
+            "full_state": state.snapshot(),
+        }
+        with open(os.path.join(args.web_out, "data.json"), "w") as f:
+            json.dump(dataset, f, ensure_ascii=False, indent=1)
+        print(f"  web dataset -> {os.path.join(args.web_out, 'data.json')} "
+              f"({len(by_moment)} moments, {orch.trace.seq} trace entries)")
 
     print("─" * 70)
     s = orch.stats

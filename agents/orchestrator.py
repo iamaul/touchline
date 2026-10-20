@@ -179,6 +179,7 @@ class Orchestrator:
             kind=expl["kind"], priority=expl["priority"],
             headline=expl["headline"], story=expl["headline"],
             stat_lines=expl.get("stat_lines", []),
+            team=expl.get("team"), scoreline=expl.get("scoreline", ""),
             overlay={"duration_s": OVERLAY_DURATION.get(expl["priority"], 4.0),
                      "style": "neutral", "timed_for_overlay": True},
             trace={"narrator": "fallback"},
