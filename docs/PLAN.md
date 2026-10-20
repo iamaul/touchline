@@ -42,10 +42,10 @@ Solo entry · ~20h budget · Deadline: **Oct 27, 2026 11:59 PM PT** · Today: Oc
 
 
 ### Day 4
-- [ ] Narrator agent: structured packet schema `{t, headline, story, statLines[], lang}`
-- [ ] Multi-language output (Foundry model)
-- [ ] Personalizer: profiles (analyst/casual/club/player/language)
-- [ ] Orchestrator: handoffs, retry, agent trace
+- [x] Narrator agent: structured packet schema `{t, headline, story, statLines[], lang}` + overlay timing hints
+- [x] Multi-language output (Foundry/GitHub-Models-compatible LLM adapter; deterministic template fallback with zero keys)
+- [x] Personalizer: profiles (analyst/casual/club/player/language) with grounded focus lens
+- [x] Orchestrator: handoffs, retry + backoff, graceful fallbacks, injectable chaos demo, JSONL agent trace
 
 ### Day 5
 - [ ] Overlay preview with synchronized timing
