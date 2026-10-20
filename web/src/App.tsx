@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Header, Controls, PersonaBar, MomentCard, Feed, TracePanel } from "@/components/panels";
 import { useClock } from "@/lib/useClock";
 import type { Dataset } from "@/types";
-import { cx } from "@/lib/cx";
 
 type Persona = "analyst" | "casual";
 type Lang = "en" | "spanish";
@@ -24,6 +23,34 @@ export default function App() {
   }, []);
 
   const play = useClock(data?.match_end_t ?? 5400);
+
+  // keep every hook unconditional — data may still be null on first render
+  const variantKey = `${persona}|${lang === "en" ? "en" : "spanish"}`;
+  const currentIdx = useMemo(() => {
+    if (!data) return -1;
+    let idx = -1;
+    for (let i = 0; i < data.moments.length; i++) {
+      if (data.moments[i].t <= play.t) idx = i;
+      else break;
+    }
+    return idx;
+  }, [data, play.t]);
+
+  const onAir = currentIdx >= 0 && data ? data.moments[currentIdx] : null;
+  const variant = onAir
+    ? onAir.variants[variantKey] ?? Object.values(onAir.variants)[0]
+    : null;
+
+  // ON AIR window: real-time overlay duration per priority
+  const [airUntil, setAirUntil] = useState(0);
+  useEffect(() => {
+    if (variant) {
+      setAirUntil(Date.now() + variant.overlay.duration_s * 1000);
+      const timer = setTimeout(() => setAirUntil(0), variant.overlay.duration_s * 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [variant?.moment_id, variant?.lang]); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (error || !data) {
     return (
       <div className="grid h-full place-items-center">
@@ -46,31 +73,6 @@ export default function App() {
       </div>
     );
   }
-
-  const variantKey = `${persona}|${lang === "en" ? "en" : "spanish"}`;
-  const currentIdx = useMemo(() => {
-    let idx = -1;
-    for (let i = 0; i < data.moments.length; i++) {
-      if (data.moments[i].t <= play.t) idx = i;
-      else break;
-    }
-    return idx;
-  }, [data, play.t]);
-
-  const onAir = currentIdx >= 0 ? data.moments[currentIdx] : null;
-  const variant = onAir
-    ? onAir.variants[variantKey] ?? Object.values(onAir.variants)[0]
-    : null;
-
-  // ON AIR window: real-time overlay duration per priority
-  const [airUntil, setAirUntil] = useState(0);
-  useEffect(() => {
-    if (variant) {
-      setAirUntil(Date.now() + variant.overlay.duration_s * 1000);
-      const timer = setTimeout(() => setAirUntil(0), variant.overlay.duration_s * 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [variant?.moment_id, variant?.lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="flex min-h-dvh flex-col">
