@@ -48,7 +48,7 @@ Solo entry · ~20h budget · Deadline: **Oct 27, 2026 11:59 PM PT** · Today: Oc
 - [x] Orchestrator: handoffs, retry + backoff, graceful fallbacks, injectable chaos demo, JSONL agent trace
 
 ### Day 5
-- [x] Overlay preview with synchronized timing (React + Vite + TS + Tailwind; replay clock with speed control + ON-AIR window per overlay.duration_s) — _pending visual check via `bun run dev` (sandbox has no network to bun install)_
+- [x] Overlay preview with synchronized timing (React + Vite + TS + Tailwind; replay clock with speed control + ON-AIR window per overlay.duration_s) — **visually verified** (screenshot: score/header/feed/trace live)
 - [x] Dashboard + persona flip + language switch (analyst/casual, EN/ES; agent-trace panel with retry/fallback highlighting)
 - [ ] Demo recording (Day 7)
 
