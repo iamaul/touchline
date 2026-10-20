@@ -278,21 +278,23 @@ class MatchSimulator:
         return ev
 
     def _pressure_event(self) -> Optional[Event]:
-        # Sustained pressure: opponents press high near losing-side's box
+        # Sustained pressure: opponents press high near losing-side's box.
+        # Convention: `team` = the side doing the pressing, `player` = presser.
         if self._pressure_counter > 0 and self.rng.random() < 0.25:
-            defending = self.possession
+            pressing = "AWAY" if self.possession == "HOME" else "HOME"
             bx, by = self.ball
             ev = Event(
                 t=self.clock,
                 event_type="PRESSURE",
-                team=defending,
-                player=self._pick_player("AWAY" if defending == "HOME" else "HOME").name,
+                team=pressing,
+                player=self._pick_player(pressing).name,
                 x=bx,
                 y=by,
                 extra={"intensity": round(min(1.0, 0.17 * self._pressure_counter), 2)},
             )
             return ev
         return None
+
 
     def _tackle_event(self) -> Optional[Event]:
         if self.rng.random() < 0.06:

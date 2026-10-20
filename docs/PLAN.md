@@ -30,9 +30,10 @@ Solo entry · ~20h budget · Deadline: **Oct 27, 2026 11:59 PM PT** · Today: Oc
 - [x] Simulator: replay-speed control + JSONL output
 
 ### Day 2
-- [ ] Stats engine: rolling possession, momentum, pressure index, pass difficulty, xT
-- [ ] MatchState schema + snapshot/export
-- [ ] End-to-end: simulator → interpreter → stats visible on a console/debug page
+- [x] Stats engine: rolling possession, momentum, pressure index, pass difficulty, xT
+- [x] MatchState schema + snapshot/export (`--json-out`, `--state-out`)
+- [x] End-to-end: simulator → engine → console debug view (`python -m agents.run_debug`)
+
 
 ### Day 3
 - [ ] Moment scoring (momentum swings, goal threat, control vs. chaos)
