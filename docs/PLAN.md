@@ -36,9 +36,10 @@ Solo entry · ~20h budget · Deadline: **Oct 27, 2026 11:59 PM PT** · Today: Oc
 
 
 ### Day 3
-- [ ] Moment scoring (momentum swings, goal threat, control vs. chaos)
-- [ ] Explainer agent grounded in MatchState (no hallucination: cite state)
-- [ ] Moment log persistence
+- [x] Moment scoring (momentum swings, goal threat, control vs. chaos)
+- [x] Explainer grounded in MatchState (no hallucination: every claim cites data)
+- [x] Moment log persistence (`--moments-out` JSONL)
+
 
 ### Day 4
 - [ ] Narrator agent: structured packet schema `{t, headline, story, statLines[], lang}`
